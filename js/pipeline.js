@@ -25,6 +25,7 @@
   const canvasFitters = new Map();
   const canvasObservers = new Map();
   let canvasResizeTimer;
+  
   window.addEventListener("resize", () => {
     window.clearTimeout(canvasResizeTimer);
     canvasResizeTimer = window.setTimeout(() => {
