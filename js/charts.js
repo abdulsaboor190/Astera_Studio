@@ -117,6 +117,7 @@
       surfaceMuted: styles.getPropertyValue("--color-surface-muted").trim(),
       brand: styles.getPropertyValue("--color-brand").trim(),
       brandSoft: styles.getPropertyValue("--color-brand-soft").trim()
+      
     };
   }
 
