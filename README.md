@@ -1,76 +1,73 @@
-# Astera Studio
+# Astera Studio mockup
 
-Astera Studio mockup: a chat-first analytics tool with pipeline monitoring and light editing on phone, tablet and desktop. Built by Abdul Saboor (FAST-NUCES, batch 2027) for the Astera Software internship assessment.
+A chat-first analytics tool with pipeline monitoring and light editing on phone, tablet and desktop. Built by Abdul Saboor (FAST-NUCES, batch 2027) for the Astera Software internship assessment.
+
+All data is made up. It is a fictional company, Northwind Retail, and there is no backend.
 
 ## How to open
 
-Unzip the project and double-click `index.html`. It works offline without installation or a server. Live link: [YOUR VERCEL LINK]. To see the responsive layouts, resize the browser window or use browser device mode at 375, 768, 1024 and 1440 pixels.
+- **Locally:** unzip the folder and double-click `index.html`. It works offline, with no install and no server.
+- **Live link:** https://astera-studio-1.vercel.app/
+- **Seeing the responsive layouts:** resize the browser window, or use your browser's device mode, at 375, 768, 1024 and 1440 pixels wide.
 
-## Try this
+## Try this (about two minutes)
 
-1. In Chat, ask the first suggested question, “Which regions missed their Q3 target?” and note the stale tag.
-2. Pin the chart, then open Dashboard and find it under “Pinned from chat.”
-3. Open the failed Regional Targets pipeline and re-run it from the failed Join step.
-4. Change a Dashboard filter, then tap a bar in “Sales vs target by region” to open its store breakdown.
-5. Shrink the window below 640 pixels, open a pipeline, and use the vertical step timeline.
+1. **Chat:** tap the first suggested question, "Which regions missed their Q3 target?". Notice the "Stale" tag: the pipeline behind this answer has failed.
+2. **Pin and dashboard:** pin the chart, then open **Dashboard** to see it under the pinned charts, next to the KPIs, the freshness strip and the pipeline status.
+3. **Failed pipeline:** open **Regional Targets** from the Pipelines list. Find the failed Join step and use **Re-run from this step**. Watch the steps change one by one, the stale tags disappear, and Target attainment move from 94% to 92%.
+4. **Filters and drill-down:** change the date range or region on the dashboard, then tap a bar in the regional chart to drill down.
+5. **Phone layout:** shrink the window to phone width and open a pipeline. You get a vertical step timeline with a jump strip at the top. Tap a step to open it, change a value, and try Preview, Apply and Undo.
 
 ## How the layout adapts
 
-| Area | Phone (<640px) | Tablet (640 to 1099px) | Desktop (1100px+) |
+| | Phone (under 640px) | Tablet (640 to 1099px) | Desktop (1100px and up) |
 |---|---|---|---|
-| Navigation | Bottom navigation bar | Narrow icon rail | Labeled sidebar with pipeline links |
-| Dashboard | Two-column KPI grid; charts stack | Four KPI columns; charts use a wider grid | Four KPI columns; charts use a wider grid |
-| Pipeline detail | Step timeline | Pannable canvas with inspector | Pannable canvas with inspector and data preview |
-| Editing | Step settings through a sheet; changes use Draft, Preview, Apply and Undo | Canvas and inspector; changes use Draft, Preview, Apply and Undo | Canvas and inspector; changes use Draft, Preview, Apply and Undo |
+| **Navigation** | Bottom tab bar | Slim left rail | Full left sidebar with the pipeline list |
+| **Dashboard** | One column, swipeable KPI row, filters in a bottom sheet | KPI row of four, charts in two columns | KPI row and a wider chart grid, inline filter chips |
+| **Pipeline detail** | Vertical step timeline, jump strip, step opens in a bottom sheet | Canvas with an inspector panel on the right, and a List and Canvas toggle | Canvas, inspector panel, and a data preview table |
+| **Editing** | Safe edits only | Safe edits only | Safe edits, plus the Add step menu |
 
 ## Design decisions
 
-- The phone pipeline uses a vertical timeline so each step and its status remain readable in a narrow view.
-- Step edits are staged in a draft and can be previewed, applied or undone.
-- Chat charts and dashboard charts show pipeline provenance; failed data is marked stale.
-- Failed pipelines show the failed step and a re-run action. The dashboard highlights affected metrics and charts.
-- The tablet and desktop canvas supports panning and zooming; the phone uses step cards instead.
+- **Timeline instead of canvas on phones.** Steps read top to bottom, each with a description, status and rows in → rows out. Dragging boxes and wires is hard with fingers, so the phone doesn't ask for it.
+- **Safe edits on touch.** Change a value, toggle or rename a step, change the schedule, move a step, or re-run. Adding or rewiring steps is desktop-only, and the screen says so.
+- **Draft, Preview, Apply, Undo.** No edit changes a pipeline directly. You see the effect first and can always undo.
+- **Provenance and freshness.** Every chart shows which pipeline feeds it, its status, and how fresh the data is.
+- **Failure as a designed state.** The failed step, a plain-language reason, and a re-run button, with stale tags on everything it feeds.
+- **No colour-only meaning.** Status is always an icon plus text.
 
 ## Folder structure
 
-```text
-Astera_Studio/
-├── index.html
-├── README.md
-├── css/
-│   └── styles.css
-├── fonts/
-│   ├── OFL-Poppins.txt
-│   └── poppins-latin-*-normal.woff2
-├── js/
-│   ├── app.js
-│   ├── charts.js
-│   ├── data.js
-│   └── pipeline.js
-├── logo/
-│   ├── astera-mark.png
-│   ├── astera_software_logo.jpg
-│   └── image.png
-└── vendor/
-    └── chart.umd.min.js
+```
+index.html
+css/styles.css
+js/data.js        mock data
+js/charts.js      Chart.js helpers
+js/pipeline.js    pipeline views, inspector, draft logic
+js/app.js         router, state, dashboard, chat, shared UI
+fonts/            bundled fonts
+logo/             Astera logo files
+vendor/           Chart.js (local copy)
+README.md
+NOTE.md
 ```
 
 ## Tech notes
 
-- Vanilla HTML, CSS and JavaScript; no build step.
-- Chart.js is bundled locally in `vendor/`.
-- Classic script tags and relative asset paths support opening `index.html` with `file://`.
-- Fonts and logos are bundled locally.
-- The app uses mock Northwind Retail data; it has no backend.
+- Vanilla HTML, CSS and JavaScript. No framework and no build step.
+- Classic `<script>` tags, so it opens straight from a zip.
+- Chart.js is bundled in `vendor/`. Fonts and logos are local, so there are no external requests.
+- Hash routing: `#/chat`, `#/dashboard`, `#/pipelines`, `#/pipeline/<id>`.
+- Light and dark themes follow the system setting, and motion respects the reduced-motion setting.
+- Pinned charts are remembered in `localStorage`, and the app still works if storage is blocked.
 
 ## Known limitations
 
-- All business data is fictional sample data.
-- Chat responses are scripted keyword matches, not generated by an AI service.
-- The data preview shows illustrative sample rows, not a live query result.
-- Pipeline runs and edits update in-memory mock data. Pins are saved in `localStorage`; other changes do not persist after a reload.
-- Adding pipeline steps is available from the canvas and stages the change in a draft. There is no backend to save pipeline structure.
+- All data is made up, and chat answers are scripted keyword matches, not a real model.
+- Structural editing (adding or rewiring steps) is a stub.
+- The data preview on desktop shows illustrative sample rows, not a full output.
+- Everything resets on refresh, apart from pinned charts.
 
 ## Credits
 
-Astera brand colors, fonts and logos are referenced from Astera's public website for this assessment only. AI tools were used for parts of the code; details are in the accompanying note.
+Astera's colours, type style and logos are used as a visual reference from the public Astera website, for this assessment only. AI tools helped write parts of the code. The details are in `NOTE.md`.
