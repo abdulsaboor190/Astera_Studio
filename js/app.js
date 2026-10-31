@@ -39,6 +39,7 @@ const NAV_ITEMS = [
   { route: "#/pipelines", label: "Pipelines", icon: ICONS.pipelines }
 ];
 
+
 // Badge names and icon shapes remain consistent across all screens.
 const STATUS_INFO = {
   Running: { icon: ICONS.running, className: "running" },
